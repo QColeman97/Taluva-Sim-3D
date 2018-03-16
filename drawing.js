@@ -309,10 +309,6 @@ function drawPlayerWin(player) {
 
 // Fully updated for 3D
 function drawPlayersWin(tied) {
-	/*context.shadowOffsetX=2;
-	context.shadowOffsetY=2;
-	context.shadowColor='gray';
-	context.shadowBlur=5;*/
 
 	console.log("tied.length: " + tied.length);
 	var playerString = "";
@@ -340,16 +336,6 @@ function drawPlayersWin(tied) {
 
 // Fully updated for 3D
 function drawTileCounter() {
-	/*context.shadowOffsetX=2;
-	context.shadowOffsetY=2;
-	context.shadowColor='gray';
-	context.shadowBlur=5;
-
-	context.fillStyle = '#000000';
-	context.font = '25px sans-serif';
-	context.textBaseline = 'top';
-	//remainingTiles = TILE_NUM - terrDistIndex;
-	context.fillText ("remaining: " + remainingTiles, 58, DECK_Y/2.5);*/
 
 	var tileCount = new THREE.TextGeometry("remaining: " + remainingTiles, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 	tileCountMesh = new THREE.Mesh(tileCount, blackTextMaterial);
