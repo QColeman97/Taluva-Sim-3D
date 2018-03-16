@@ -274,10 +274,7 @@ function drawPlayerTurn(player) {
 
 // Fully updated for 3D
 function drawPlayerWin(player) {
-	/*context.shadowOffsetX=2;
-	context.shadowOffsetY=2;
-	context.shadowColor='gray';
-	context.shadowBlur=5;*/
+	
 	var playerWin = new THREE.TextGeometry("Player " + player + " Wins!!", {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 
 	switch(player) {
