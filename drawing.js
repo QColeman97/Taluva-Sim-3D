@@ -617,7 +617,7 @@ function addExpandButtonMesh() {
 //function translateAndMoveHexMesh(row,col,level,type,rotation,player,huts,towers,temples) {
 function translateAndMoveHexMesh(row,col,hexName) {	
 	// boardHexagons is an array of HexState
-	// x and y are centers of hex's
+	// x and y are centers of hex's, yes they are
 	// corripsonds HexState row and col to appropriate x and y
 	var hexX;
 	var hexY = -((1.5*SIZE*row) - SIZE) + (BOARD_LENGTH/2);
