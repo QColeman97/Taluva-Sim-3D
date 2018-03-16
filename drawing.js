@@ -432,9 +432,6 @@ function drawHutsTemplesAndTowers() {
 		break;
 	default:
 	}
-	/*context.drawImage(hutImage, HUT_X, HTT_Y);
-	context.drawImage(templeImage, TEMPLE_X, HTT_Y);
-	context.drawImage(towerImage, TOWER_X, HTT_Y);*/
 
 	var objLoader = new THREE.OBJLoader();
 	var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
@@ -491,12 +488,8 @@ function drawHutsTemplesAndTowers() {
 
 // Not fully updated for 3D
 /*function addDoneButtonMesh() {		
-	/*context.shadowOffsetX=6;
-	context.shadowOffsetY=6;
-	context.shadowColor='black';
-	context.shadowBlur=20;
 
-	context.fillStyle = 'rgb(150, 125, 90)';
+	/*context.fillStyle = 'rgb(150, 125, 90)';
 	context.lineWidth=1;
 	context.fillRect(DONE_BTN_X, DONE_BTN_Y, 2*WIDTH, SIZE);*/
 
