@@ -183,14 +183,10 @@ function drawTitle() {
 }
 // Fully updated for 3D
 function drawPlayerNumPrompt() {
-	/*context.shadowOffsetX=2;
-	context.shadowOffsetY=2;
-	context.shadowColor='gray';
-	context.shadowBlur=5;
-	context.fillStyle = 'black';
+	
 
 	// "How many players?"
-	context.font = '25px sans-serif';
+	/*context.font = '25px sans-serif';
 	context.textBaseline = 'top';
 	context.fillText ("How Many Players?", 22, DECK_Y/6);*/
 
