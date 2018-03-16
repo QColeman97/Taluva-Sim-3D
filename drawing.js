@@ -221,11 +221,6 @@ function drawPlayerNumPrompt() {
 	button4Mesh.position.set(7*PANEL_WIDTH/9 - (BOARD_WIDTH/2), -(DECK_Y/2.5) + (BOARD_LENGTH/2), BOARD_HEIGHT);
 
 
-	/*button1Mesh.position.set(PANEL_WIDTH/9 - (BOARD_WIDTH/2), -(DECK_Y/2.5) + (BOARD_LENGTH/2), BOARD_HEIGHT);
-	button2Mesh.position.set(PANEL_WIDTH/3 - (BOARD_WIDTH/2), -(DECK_Y/2.5) + (BOARD_LENGTH/2), BOARD_HEIGHT);
-	button3Mesh.position.set(5*PANEL_WIDTH/9 - (BOARD_WIDTH/2), -(DECK_Y/2.5) + (BOARD_LENGTH/2), BOARD_HEIGHT);
-	button4Mesh.position.set(7*PANEL_WIDTH/9 - (BOARD_WIDTH/2), -(DECK_Y/2.5) + (BOARD_LENGTH/2), BOARD_HEIGHT);*/
-
 	button1Mesh.name = 'button1';
 	button2Mesh.name = 'button2';
 	button3Mesh.name = 'button3';
