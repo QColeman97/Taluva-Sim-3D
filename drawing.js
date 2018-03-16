@@ -513,10 +513,6 @@ function drawHutsTemplesAndTowers() {
 
 // Not fully updated for 3D
 function addExpandButtonMesh() {
-	/*context.shadowOffsetX=6;
-	context.shadowOffsetY=6;
-	context.shadowColor='black';
-	context.shadowBlur=20;*/
 
 	/*context.fillStyle = 'rgb(150, 125, 90)';
 	context.lineWidth=1;
