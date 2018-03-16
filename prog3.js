@@ -630,6 +630,7 @@ function onDocumentMouseClick(e) {
 		//holdingTile = false;
 		//idling = false;
 		
+		// Simple substate change
 		tryingTilePlacement = true;
 		
 	// Clicked on huts
