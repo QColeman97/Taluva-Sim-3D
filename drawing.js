@@ -621,13 +621,12 @@ function translateAndMoveHexMesh(row,col,hexName) {
 	// corripsonds HexState row and col to appropriate x and y
 	var hexX;
 	var hexY = -((1.5*SIZE*row) - SIZE) + (BOARD_LENGTH/2);
-	//console.log("row: " + row, " col: " + col);
 
 	var offset = Math.floor(row/2);
 	if (row % 2 === 0) {
-		hexX = WIDTH*(col+offset) - (3.5*WIDTH) - (BOARD_WIDTH/2);
+		hexX = WIDTH*(col+offset) - (3.5*WIDTH);// - (BOARD_WIDTH/2);
 	} else {
-		hexX = WIDTH*(col+offset) - (4*WIDTH) - (BOARD_WIDTH/2);
+		hexX = WIDTH*(col+offset) - (4*WIDTH);// - (BOARD_WIDTH/2);
 	}
 	//addHexMesh(hexX,hexY,type, true, rotation, false, level, huts, towers, temples, player, false);
 	
