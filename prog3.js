@@ -54,8 +54,6 @@ function canvasApp() {
 	// TODO
 	// SOLIDIFY ANIMATION FLOW
 	drawPlayerNumPrompt();
-	//old
-	//renderer.render(scene, camera);
 	
 	// GAMELOOP
 	var render = function() {
