@@ -245,10 +245,6 @@ function drawPlayerNumPrompt() {
 
 // Fully updated for 3D
 function drawPlayerTurn(player) {
-	/*context.shadowOffsetX=2;
-	context.shadowOffsetY=2;
-	context.shadowColor='gray';
-	context.shadowBlur=5;*/
 
 	var playerTurn = new THREE.TextGeometry('Player ' + player + '\'s Turn', {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 	switch(player) {
