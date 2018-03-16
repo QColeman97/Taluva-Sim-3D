@@ -150,20 +150,8 @@ function drawSidePanel() {
 }
 // Fully updated for 3D
 function drawTitle() {
-	/*context.shadowOffsetX=6;
-	context.shadowOffsetY=6;
-	context.shadowColor='rgb(75, 25, 25)';
-	context.shadowBlur=20;
-	context.fillStyle = 'brown';
 
-	context.font = '25px sans-serif';
-	context.textBaseline = 'top';
-	if (gameOver) {
-		context.fillText ("It's (no longer)", TITLE_X + (WIDTH/2), TITLE_Y - (2*SIZE/3));
-	} else {
-		context.fillText ("It's", TITLE_X + WIDTH + 20, TITLE_Y - (2*SIZE/3));
-	}
-	context.font = '65px sans-serif';
+	/*context.font = '65px sans-serif';
 	context.fillText ("TALUVA", TITLE_X, TITLE_Y);
 	context.font = '25px sans-serif';
 	context.fillText ("Time", TITLE_X + WIDTH + 7, TITLE_Y + (3*SIZE/2));*/
