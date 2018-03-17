@@ -69,11 +69,6 @@ camera_pivot.rotateOnAxis(X_AXIS, CAM_ANGLE);
 var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
-// For simple lighting differences to see geometry
-/*var pointLight = new THREE.PointLight(0xffffff, 0.5, 0, 2);
-pointLight.position.set(70, -100, 300);
-scene.add(pointLight);*/
-
 // Spotlight for shadows
 //var spotLight = new THREE.SpotLight(0xFFFFFF, 4.0, 1000);
 var spotLight = new THREE.SpotLight(0xFFFFFF);
@@ -86,7 +81,7 @@ spotLight.shadow.camera.far = 100;
 spotLight.shadow.camera.fov = 50;
 scene.add(spotLight);
 
-// Optional post-processing
+// Vignette - Post-Processing
 var composer = new THREE.EffectComposer(renderer);
 var renderPass = new THREE.RenderPass(scene, camera);
 composer.addPass(renderPass);
@@ -110,8 +105,7 @@ var quarryHexMaterial = new THREE.MeshLambertMaterial( {color: QUARRYCOLOR} );
 var lagoonHexMaterial = new THREE.MeshLambertMaterial( {color: LAGOONCOLOR} );
 
 // CREATE HEXSHAPE VAR
-//var x = centerX;
-//var y = centerY+SIZE;
+
 var x = 0;
 var y = 0;
 var hexShape = new THREE.Shape();
@@ -162,13 +156,6 @@ function drawBackground() {
 
 // Fully updated for 3D
 function drawSidePanel() {
-	/*context.shadowOffsetX=6;
-	context.shadowOffsetY=6;
-	context.shadowColor='black';
-	context.shadowBlur=20;
-
-	context.fillStyle = 'rgb(200, 175, 150)';
-	context.fillRect(0, 0, PANEL_WIDTH, BOARD_HEIGHT);*/
 
 	var panel = new THREE.BoxGeometry(PANEL_WIDTH, BOARD_LENGTH, BOARD_HEIGHT);
 	var panelMaterial = new THREE.MeshLambertMaterial( {color: 'rgb(200, 175, 150)'} );
@@ -180,11 +167,6 @@ function drawSidePanel() {
 }
 // Fully updated for 3D
 function drawTitle() {
-
-	/*context.font = '65px sans-serif';
-	context.fillText ("TALUVA", TITLE_X, TITLE_Y);
-	context.font = '25px sans-serif';
-	context.fillText ("Time", TITLE_X + WIDTH + 7, TITLE_Y + (3*SIZE/2));*/
 	
 
 	if (gameOver) {
@@ -213,12 +195,6 @@ function drawTitle() {
 }
 // Fully updated for 3D
 function drawPlayerNumPrompt() {
-	
-
-	// "How many players?"
-	/*context.font = '25px sans-serif';
-	context.textBaseline = 'top';
-	context.fillText ("How Many Players?", 22, DECK_Y/6);*/
 
 	// 1 2 3 4 Buttons
 	var title = new THREE.TextGeometry('How Many Players?', {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
@@ -226,14 +202,6 @@ function drawPlayerNumPrompt() {
 	howManyPMesh.position.set(-(BOARD_WIDTH/4), 0, 3*BOARD_HEIGHT);
 	howManyPMesh.rotation.x += Math.PI/8;
 	scene.add(howManyPMesh);
-
-
-	//context.fillStyle = 'rgb(150, 125, 90)';
-	/*context.lineWidth=1;
-	context.fillRect(PANEL_WIDTH/9, DECK_Y/2.5, WIDTH/3, SIZE);
-	context.fillRect(PANEL_WIDTH/3, DECK_Y/2.5, WIDTH/3, SIZE);
-	context.fillRect(5*PANEL_WIDTH/9, DECK_Y/2.5, WIDTH/3, SIZE);
-	context.fillRect(7*PANEL_WIDTH/9, DECK_Y/2.5, WIDTH/3, SIZE);*/
 
 	var button = new THREE.BoxGeometry(WIDTH/3, SIZE, BOARD_HEIGHT);
 	var buttonMaterial = new THREE.MeshLambertMaterial( {color: 'rgb(200, 175, 150)'} );
@@ -255,12 +223,6 @@ function drawPlayerNumPrompt() {
 	scene.add(button2Mesh);
 	scene.add(button3Mesh);
 	scene.add(button4Mesh);
-
-	/*context.shadowOffsetX=0;
-	context.shadowOffsetY=0;
-	context.font = '33px sans-serif';
-	context.fillStyle = 'black';
-	context.fillText(" 1    2    3    4 ", PANEL_WIDTH/9, DECK_Y/2.4);*/
 	
 	var players = new THREE.TextGeometry('1   2   3   4', {font: font, size: 30 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 	playersMesh = new THREE.Mesh(players, textMaterial);
@@ -288,10 +250,6 @@ function drawPlayerTurn(player) {
 		break;
 	default:
 	}
-
-	/*context.font = '30px sans-serif';
-	context.textBaseline = 'top';
-	context.fillText ("Player " + player + "\'s Turn", 35, DECK_Y/6);*/
 
 	playerTurnMesh.position.set((PANEL_WIDTH/9) - (BOARD_WIDTH/2) + (BOARD_WIDTH/1.8), -(DECK_Y/6) + (BOARD_LENGTH/2) - (BOARD_LENGTH + (3*SIZE/2)), BOARD_HEIGHT*3);
 	playerTurnMesh.name = 'playerTurn';
@@ -321,13 +279,7 @@ function drawPlayerWin(player) {
 
 		break;
 	default:
-		//context.fillStyle = '#000000';
-		//var textMaterial = new THREE.MeshPhongMaterial({color:0x000000});
 	}
-
-	/*context.font = '30px sans-serif';
-	context.textBaseline = 'top';
-	context.fillText ("Player " + player + " Wins!!", 34, DECK_Y/6);*/
 
 	playerWinMesh.position.set((PANEL_WIDTH/9) - (BOARD_WIDTH/2), -(DECK_Y/6) + (BOARD_LENGTH/2), BOARD_HEIGHT*3);
 	scene.add(playerWinMesh);
@@ -349,11 +301,6 @@ function drawPlayersWin(tied) {
 	playerString += ("and " + tied[tied.length-1]);
 	console.log("Playerstring at tied[1]: " + tied[i]);
 
-	/*context.fillStyle = '#FFFFFF';
-	context.font = '30px sans-serif';
-	context.textBaseline = 'top';
-	context.fillText ("Players " + playerString + " Win!!", 35, DECK_Y/6);*/
-
 	var playersWin = new THREE.TextGeometry("Players " + playerString + " Win!!", {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 	var playersWinMesh = new THREE.Mesh(playersWin, whiteTextMaterial);
 	playersWinMesh.position.set((PANEL_WIDTH/9) - (BOARD_WIDTH/2), -(DECK_Y/6) + (BOARD_LENGTH/2), BOARD_HEIGHT*3);
@@ -372,19 +319,10 @@ function drawTileCounter() {
 
 // Fully updated for 3D
 function drawHutsTemplesAndTowers() {
-	/*context.shadowOffsetX=7;
-	context.shadowOffsetY=7;
-	context.shadowColor='black';
-	context.shadowBlur=50;*/
-
-	//context.font = '25px sans-serif';
-	//context.textBaseline = 'top';
+	
 	switch(currPlayer) {
 	case PlayerEnum.ONE:
-		//context.fillStyle = 'red';
-		/*context.fillText (RemainingHutsEnum.ONE, HUT_X + 16, HTT_Y - 30);
-		context.fillText (RemainingTemplesEnum.ONE, TEMPLE_X + 24, HTT_Y - 30);
-		context.fillText (RemainingTowersEnum.ONE, TOWER_X + 24, HTT_Y - 30);*/
+	
 
 		var huts = new THREE.TextGeometry(RemainingHutsEnum.ONE, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		hutsMesh = new THREE.Mesh(huts, redTextMaterial);
@@ -403,10 +341,7 @@ function drawHutsTemplesAndTowers() {
 
 		break;
 	case PlayerEnum.TWO:
-		//context.fillStyle = 'yellow';
-		/*context.fillText (RemainingHutsEnum.TWO, HUT_X + 16, HTT_Y - 30);
-		context.fillText (RemainingTemplesEnum.TWO, TEMPLE_X + 24, HTT_Y - 30);
-		context.fillText (RemainingTowersEnum.TWO, TOWER_X + 24, HTT_Y - 30);*/
+
 		
 		var huts = new THREE.TextGeometry(RemainingHutsEnum.TWO, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		hutsMesh = new THREE.Mesh(huts, yellowTextMaterial);
@@ -425,10 +360,7 @@ function drawHutsTemplesAndTowers() {
 
 		break;
 	case PlayerEnum.THREE:
-		//context.fillStyle = 'green';
-		/*context.fillText (RemainingHutsEnum.THREE, HUT_X + 16, HTT_Y - 30);
-		context.fillText (RemainingTemplesEnum.THREE, TEMPLE_X + 24, HTT_Y - 30);
-		context.fillText (RemainingTowersEnum.THREE, TOWER_X + 24, HTT_Y - 30);*/
+
 
 		var huts = new THREE.TextGeometry(RemainingHutsEnum.THREE, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		hutsMesh = new THREE.Mesh(huts, greenTextMaterial);
@@ -447,10 +379,6 @@ function drawHutsTemplesAndTowers() {
 
 		break;
 	case PlayerEnum.FOUR:
-		//context.fillStyle = 'blue';
-		/*context.fillText (RemainingHutsEnum.FOUR, HUT_X + 16, HTT_Y - 30);
-		context.fillText (RemainingTemplesEnum.FOUR, TEMPLE_X + 24, HTT_Y - 30);
-		context.fillText (RemainingTowersEnum.FOUR, TOWER_X + 24, HTT_Y - 30);*/
 
 		var huts = new THREE.TextGeometry(RemainingHutsEnum.FOUR, {font: font, size: 40 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		hutsMesh = new THREE.Mesh(huts, blueTextMaterial);
@@ -473,7 +401,7 @@ function drawHutsTemplesAndTowers() {
 
 	var hutMaterial = new THREE.MeshBasicMaterial( { color: 'brown' } );
 	var templeMaterial = new THREE.MeshBasicMaterial( { color: 'gold' } );
-	var towerMaterial = new THREE.MeshBasicMaterial( { color: 'purple' } );
+	var towerMaterial = new THREE.MeshBasicMaterial( { color: 'grey' } );
 
 	// SPACESHIP
 	objLoader.load('shack.obj', function (hut) {
@@ -538,36 +466,9 @@ function drawHutsTemplesAndTowers() {
 }
 
 // Not fully updated for 3D
-/*function addDoneButtonMesh() {		
-
-	/*context.fillStyle = 'rgb(150, 125, 90)';
-	context.lineWidth=1;
-	context.fillRect(DONE_BTN_X, DONE_BTN_Y, 2*WIDTH, SIZE);*/
-
-	/*var button = new THREE.BoxGeometry(2*WIDTH, SIZE, BOARD_HEIGHT);
-	var buttonMaterial = new THREE.MeshLambertMaterial( {color: 'rgb(150, 125, 90)'} );
-	var buttonMesh = new THREE.Mesh(button, buttonMaterial);
-	buttonMesh.position.set(0,0,0);
-	scene.add(buttonMesh);*/
-
-	/*context.shadowOffsetX=0;
-	context.shadowOffsetY=0;
-	context.font = '25px sans-serif';
-	context.fillStyle = 'black';
-	context.fillText("FINISH TURN", DONE_BTN_X+10, DONE_BTN_Y+15);*/
-
-	/*var textMaterial = new THREE.MeshPhongMaterial({color:0xFFFFFF});
-	var title = new THREE.TextGeometry("FINISH TURN", {font: font, size: 60, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
-	var titleMesh = new THREE.Mesh(title, textMaterial);
-	scene.add(titleMesh);
-}*/
-
-// Not fully updated for 3D
 function addExpandButtonMesh() {
 
-	/*context.fillStyle = 'rgb(150, 125, 90)';
-	context.lineWidth=1;
-	context.fillRect(EXPAND_BTN_X, EXPAND_BTN_Y, 2*WIDTH, SIZE);*/
+
 
 	var button = new THREE.BoxGeometry(2*WIDTH, SIZE, BOARD_HEIGHT);
 	var buttonMaterial = new THREE.MeshLambertMaterial( {color: 'rgb(150, 125, 90)'} );
@@ -575,12 +476,6 @@ function addExpandButtonMesh() {
 	expandMesh.position.set(EXPAND_BTN_X, EXPAND_BTN_Y, BOARD_HEIGHT);
 	scene.add(expandMesh);
 
-	//var extrudeSettings = {amount: HEX_HEIGHT, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1};
-	//var hex = new THREE.ExtrudeGeometry(hexShape, extrudeSettings);
-
-	/*context.shadowOffsetX=0;
-	context.shadowOffsetY=0;
-	context.font = '20px sans-serif';*/
 	
 	var title = new THREE.TextGeometry("EXPAND\nSETTLEMENT", {font: font, size: 20 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 6 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 2 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 
@@ -604,8 +499,7 @@ function addExpandButtonMesh() {
 	default:
 		//context.fillStyle = 'black';
 	}
-	/*context.fillText("EXPAND", EXPAND_BTN_X+45, EXPAND_BTN_Y+5);
-	context.fillText("SETTLEMENT", EXPAND_BTN_X+20, EXPAND_BTN_Y+27);*/
+
 
 	expandPromptMesh.name = 'expander';
 	expandPromptMesh.position.set(EXPAND_BTN_X - WIDTH, EXPAND_BTN_Y, BOARD_HEIGHT* 2);
@@ -631,19 +525,12 @@ function translateAndMoveHexMesh(row,col,hexName) {
 	
 	scene.traverse (function (object) {
 		if (object instanceof THREE.Mesh) {
-			//console.log("Mesh detected. Object.name = " + object.name);
-			// USED TO BE
-			//var topString = 'topDeckHex' + (remainingTiles+1).toString();
-			
-			//var topString = 'topDeckHex' + (remainingTiles).toString();
-			//var leftString = 'leftDeckHex' + (remainingTiles).toString();
-			//var rightString = 'rightDeckHex' + (remainingTiles).toString();
+		
 			
 			if (object.name === hexName) {
 				console.log('object.name = ' + object.name);
 				object.position.z = BOARD_HEIGHT;
-				//object.position.x = hexX;
-				//object.position.y = hexY + SIZE;
+				
 				// Enter method w/ exact row/col of hex
 				object.position.x = hexX;
 				object.position.y = hexY;
@@ -651,299 +538,17 @@ function translateAndMoveHexMesh(row,col,hexName) {
 				console.log("hex position: " + object.position.x + " " + object.position.y + " " + object.position.z);
 			
 			}
-			/*if (object.name === topString) {
-				console.log('object.name = ' + object.name);
-				object.position.z = 2*BOARD_HEIGHT;
-				//object.position.x = hexX;
-				//object.position.y = hexY + SIZE;
-				// Enter method w/ exact row/col of hex
-				object.position.x = hexX;
-				object.position.y = hexY;
-				//object.position.set(mouse.x, mouse.y + SIZE, 3*BOARD_HEIGHT);  
-				console.log("topHex position: " + object.position.x + " " + object.position.y + " " + object.position.z);
-			} else if (object.name === leftString) {
-				console.log('object.name = ' + object.name);
-				object.position.z = 2*BOARD_HEIGHT;
-				//object.position.x = hexX - (WIDTH / 2);
-				//object.position.y = hexY - (SIZE / 2);
-				// Enter method w/ exact row/col of hex
-				object.position.x = hexX;
-				object.position.y = hexY;
-
-				//object.position.set(mouse.x - (WIDTH / 2), mouse.y - (SIZE / 2), 3*BOARD_HEIGHT);  
-				console.log("leftHex position: " + object.position.x + " " + object.position.y + " " + object.position.z);
-
-			} else if (object.name === rightString) {
-				console.log('object.name = ' + object.name);
-				object.position.z = 3*BOARD_HEIGHT;
-				//object.position.x = hexX + (WIDTH / 2);
-				//object.position.y = hexY - (SIZE / 2);
-				// Enter method w/ exact row/col of hex
-				object.position.x = hexX;
-				object.position.y = hexY;
-				//object.position.set(mouse.x + (WIDTH / 2), mouse.y - (SIZE / 2), 3*BOARD_HEIGHT);
-
-				console.log("rightHex position: " + object.position.x + " " + object.position.y + " " + object.position.z);
-
-			}*/
 		}
 	});
 
 
 }
 
-
-// replaced by addHexMesh()
-function drawHexagon(centerX, centerY, type, isPlaced, angle, isHeld, 
-	level, huts, towers, temples, player) {
-
-	var x = centerX;	
-	var y = centerY - SIZE;
-	var startY = y;
-
-	if (isPlaced) {
-		context.shadowOffsetX=0;
-		context.shadowOffsetY=0;
-	} else {
-		context.shadowOffsetX=7;
-		context.shadowOffsetY=7;
-		context.shadowColor='black';
-		context.shadowBlur=50;
-	}
-
-	if (isHeld && heldOverPlaced) {
-		context.globalAlpha = 0.5;
-	}
-
-	context.beginPath();
-	switch (type) {
-		case SubtileTypeEnum.VOLCANO:
-			context.fillStyle = VOLCANOCOLOR;
-			break;
-		case SubtileTypeEnum.JUNGLE:
-			context.fillStyle = JUNGLECOLOR;
-			break;
-		case SubtileTypeEnum.GRASS:
-			context.fillStyle = GRASSCOLOR;
-			break;
-		case SubtileTypeEnum.DESERT:
-			context.fillStyle = DESERTCOLOR;
-			break;
-		case SubtileTypeEnum.QUARRY:
-			context.fillStyle = QUARRYCOLOR;
-			break;
-		case SubtileTypeEnum.LAGOON:
-			context.fillStyle = LAGOONCOLOR;
-			break;
-		default:
-			context.fillStyle = "rgb(37, 90, 100)";
-	}
-	if (isHeld) {
-		context.strokeStyle = "rgb(200,255,255)"; 
-		context.lineWidth=10;
-	} else {
-		context.strokeStyle = "white"; 
-		context.lineWidth=2;
-	}
-	context.moveTo(x, y);
-
-	// i = 1
-	x -= WIDTH / 2;
-	y += SIZE / 2;
-	context.lineTo(x, y);
-
-	// i = 2
-	y += SIZE;
-	context.lineTo(x, y);
-
-	// i = 3
-	x += WIDTH / 2;
-	y += SIZE / 2;
-	context.lineTo(x, y);
-
-	// i = 4
-	x += WIDTH / 2;
-	y -= SIZE / 2;
-	context.lineTo(x, y);
-
-	// i = 5
-	y -= SIZE;
-	context.lineTo(x, y);
-
-	// i = 6
-	x -= WIDTH / 2;
-	y -= SIZE / 2;
-	context.lineTo(x, y);
-
-	context.closePath();
-	context.fill();
-
-	context.shadowOffsetX=0;
-	context.shadowOffsetY=0;
-	context.shadowBlur=0;
-	context.stroke();
-
-	if (type === SubtileTypeEnum.VOLCANO) {
-		if (angle !== 0 && isPlaced) {
-			context.save();
-			context.setTransform(1,0,0,1,0,0);
-			context.translate(centerX, centerY)
-			context.rotate(angle)
-			x = 0;
-			y = 0;
-		} else {
-			x = centerX;
-			y = centerY;
-		}
-		// draw arrow of lava flow
-		context.beginPath();
-		context.strokeStyle = "rgba(0,0,0,0.5)"; 
-		context.lineWidth=5;
-		//moved^
-		//x = centerX;
-		//y = centerY;
-		context.moveTo(x, y);
-		x += WIDTH / 8;
-		y += SIZE*3 / 8;
-		context.lineTo(x, y);
-		context.closePath();
-		context.stroke();
-
-		// Draw arrow tip
-		context.beginPath();
-		context.strokeStyle = "black"; 
-		context.fillStyle = "black";
-		context.lineWidth=1;
-		if (angle !== 0 && isPlaced) {
-			x = 0 + (WIDTH / 6);
-			y = 0 + (SIZE*3 / 6);
-		} else {
-			x = centerX + (WIDTH / 6);
-			y = centerY + (SIZE*3 / 6);
-		}
-		context.moveTo(x,y);
-		y -= (SIZE/2) - (SIZE/6);
-		context.lineTo(x,y);
-		x -= WIDTH / 6;
-		y += (SIZE/6);
-		context.lineTo(x,y);
-		context.closePath();
-		context.fill();
-		context.stroke();
-		if (angle !== 0 && isPlaced) {
-			context.restore();	
-		}
-	}
-	context.fillStyle = '#000000';
-	context.font = '25px sans-serif';
-	context.textBaseline = 'top';
-	if (level > 0) {
-		context.font = '25px sans-serif';
-		context.fillText ("L" + level, centerX-(WIDTH/7), centerY-(SIZE/1.2));	
-	}
-	if (huts > 0) {
-		context.font = '20px sans-serif';
-		switch(player) {
-		case PlayerEnum.ONE:
-			context.fillStyle = 'red';
-			break;
-		case PlayerEnum.TWO:
-			context.fillStyle = 'yellow';
-			break;
-		case PlayerEnum.THREE:
-			context.fillStyle = 'green';
-			break;
-		case PlayerEnum.FOUR:
-			context.fillStyle = 'blue';
-			break;
-		default:
-			context.fillStyle = 'black';
-		}
-		context.fillText ("Hu: " + huts, centerX-(WIDTH/4), centerY-(SIZE/3));
-	}
-	if (towers > 0) {
-		context.font = '20px sans-serif';
-		switch(player) {
-		case PlayerEnum.ONE:
-			context.fillStyle = 'red';
-			break;
-		case PlayerEnum.TWO:
-			context.fillStyle = 'yellow';
-			break;
-		case PlayerEnum.THREE:
-			context.fillStyle = 'green';
-			break;
-		case PlayerEnum.FOUR:
-			context.fillStyle = 'blue';
-			break;
-		default:
-			context.fillStyle = 'black';
-		}
-		context.fillText ("Tow: " + towers, centerX-(WIDTH/3), centerY);
-	}
-	if (temples > 0) {
-		context.font = '20px sans-serif';
-		switch(player) {
-		case PlayerEnum.ONE:
-			context.fillStyle = 'red';
-			break;
-		case PlayerEnum.TWO:
-			context.fillStyle = 'yellow';
-			break;
-		case PlayerEnum.THREE:
-			context.fillStyle = 'green';
-			break;
-		case PlayerEnum.FOUR:
-			context.fillStyle = 'blue';
-			break;
-		default:
-			context.fillStyle = 'black';
-		}
-		context.fillText ("Tem: " + temples, centerX-(WIDTH/3), centerY+(SIZE/3));
-	}
-
-	context.globalAlpha = 1.0; 
-}
-
-//var i = 0;
-
 // replaces drawHexagon
 function addHexMesh(centerX, centerY, type, isPlaced, angle, isHeld, 
 	level, huts, towers, temples, player, isDeck, deckPos) {
 	
-	/*var x = centerX;
-	var y = centerY+SIZE;
-	var hexShape = new THREE.Shape();
-	hexShape.moveTo(x,y);
-	x -= WIDTH / 2;
-	y += SIZE / 2;
-	hexShape.lineTo(x, y);
 
-	// i = 2
-	y += SIZE;
-	hexShape.lineTo(x, y);
-
-	// i = 3
-	x += WIDTH / 2;
-	y += SIZE / 2;
-	hexShape.lineTo(x, y);
-
-	// i = 4
-	x += WIDTH / 2;
-	y -= SIZE / 2;
-	hexShape.lineTo(x, y);
-
-	// i = 5
-	y -= SIZE;
-	hexShape.lineTo(x, y);
-
-	// i = 6
-	x -= WIDTH / 2;
-	y -= SIZE / 2;
-	hexShape.lineTo(x, y);
-
-	var extrudeSettings = {amount: HEX_HEIGHT, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1};
-	var hex = new THREE.ExtrudeGeometry(hexShape, extrudeSettings);*/
 	switch (type) {
 		case SubtileTypeEnum.VOLCANO:
 			hexMesh = new THREE.Mesh(hex, volcanoHexMaterial);
