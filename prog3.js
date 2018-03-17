@@ -626,7 +626,8 @@ function canvasApp() {
 			}
 		} else if (gameOver) {
 			addGameOverMesh();
-			renderer.render(scene, camera);
+			composer.render();
+			//renderer.render(scene, camera);
 			return;
 			// After players chosen
 		} else {
@@ -641,7 +642,8 @@ function canvasApp() {
 		prevMouseX = mouse.x;
 		prevMouseY = mouse.y;
 		//console.log('rendering scene');
-		renderer.render(scene, camera);
+		composer.render();
+		//renderer.render(scene, camera);
 		requestAnimationFrame(render);
 		//requestAnimationFrame(animate);
 	}

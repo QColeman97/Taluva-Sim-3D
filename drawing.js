@@ -24,7 +24,11 @@ var font = loader.load('./helvetiker_regular.typeface.json',
 		console.log( 'An error happened loading font' );
 	});
 
-//var deckHexMesh;
+// DECLARE GLOBAL MESHES FOR ADDITION AND DELETION
+var titleMesh, howManyPMesh, playersMesh, button1Mesh, button2Mesh, button3Mesh, button4Mesh,
+	tileCountMesh, playerTurnMesh, hutsMesh, towersMesh, templesMesh, buildMesh,
+	expandMesh, expandPromptMesh, boardMesh, hexMesh;
+
 var zPlane = new THREE.Plane(new THREE.Vector3(0,0,1, 0));
 
 var mouse = new THREE.Vector2();
@@ -40,6 +44,11 @@ var renderer = new THREE.WebGLRenderer( {
 renderer.setClearColor(0xffffff);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
+
+// Enable shadows
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCShadowMap;
+
 
 // Camera, FOV: 35, Aspect Ratio: window size, near and far clipping points: 0.1, 3000
 var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 800);
@@ -60,9 +69,30 @@ camera_pivot.rotateOnAxis(X_AXIS, CAM_ANGLE);
 var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
-var pointLight = new THREE.PointLight(0xffffff, 0.5, 0, 2);
+// For simple lighting differences to see geometry
+/*var pointLight = new THREE.PointLight(0xffffff, 0.5, 0, 2);
 pointLight.position.set(70, -100, 300);
-scene.add(pointLight);
+scene.add(pointLight);*/
+
+// Spotlight for shadows
+//var spotLight = new THREE.SpotLight(0xFFFFFF, 4.0, 1000);
+var spotLight = new THREE.SpotLight(0xFFFFFF);
+spotLight.position.set(0, 20, 150);
+spotLight.castShadow = true;
+spotLight.shadow.mapSize.width = 652 * 2;
+spotLight.shadow.mapSize.height = 652 * 2;
+spotLight.shadow.camera.near = 80;
+spotLight.shadow.camera.far = 100;
+spotLight.shadow.camera.fov = 50;
+scene.add(spotLight);
+
+// Optional post-processing
+var composer = new THREE.EffectComposer(renderer);
+var renderPass = new THREE.RenderPass(scene, camera);
+composer.addPass(renderPass);
+var pass1 = new THREE.ShaderPass(THREE.VignetteShader);
+composer.addPass(pass1);
+pass1.renderToScreen = true;
 
 var textMaterial = new THREE.MeshPhongMaterial({color:0xFF0033});
 var redTextMaterial = new THREE.MeshPhongMaterial({color: 'red'});
@@ -118,17 +148,14 @@ var hex = new THREE.ExtrudeGeometry(hexShape, hexExtrudeSettings);
 
 // DRAW FUNCTIONS
 
-// TODO
-// DECLARE GLOBAL MESHES FOR ADDITION AND DELETION
-var titleMesh, howManyPMesh, playersMesh, button1Mesh, button2Mesh, button3Mesh, button4Mesh,
-	tileCountMesh, playerTurnMesh, hutsMesh, towersMesh, templesMesh, buildMesh,
-	expandMesh, expandPromptMesh;
-
 function drawBackground() {
 	// Game board
 	var board = new THREE.BoxGeometry(BOARD_WIDTH, BOARD_LENGTH, BOARD_HEIGHT);
 	var boardMaterial = new THREE.MeshLambertMaterial( {color: 0x3da3ff} );
-	var boardMesh = new THREE.Mesh(board, boardMaterial);
+	boardMesh = new THREE.Mesh(board, boardMaterial);
+	// Shadow config
+	spotLight.target = boardMesh;
+	boardMesh.receiveShadow = true;
 	boardMesh.name = 'board';
 	scene.add(boardMesh);
 }
@@ -147,6 +174,7 @@ function drawSidePanel() {
 	var panelMaterial = new THREE.MeshLambertMaterial( {color: 'rgb(200, 175, 150)'} );
 	var panelMesh = new THREE.Mesh(panel, panelMaterial);
 	panelMesh.position.set(-BOARD_WIDTH/2 + PANEL_WIDTH/2, 0, 0);
+	panelMesh.receiveShadow = true;
 	panelMesh.name = 'panel';
 	scene.add(panelMesh);
 }
@@ -445,7 +473,7 @@ function drawHutsTemplesAndTowers() {
 
 	var hutMaterial = new THREE.MeshBasicMaterial( { color: 'brown' } );
 	var templeMaterial = new THREE.MeshBasicMaterial( { color: 'gold' } );
-	var towerMaterial = new THREE.MeshBasicMaterial( { color: 'white' } );
+	var towerMaterial = new THREE.MeshBasicMaterial( { color: 'purple' } );
 
 	// SPACESHIP
 	objLoader.load('shack.obj', function (hut) {
@@ -918,36 +946,36 @@ function addHexMesh(centerX, centerY, type, isPlaced, angle, isHeld,
 	var hex = new THREE.ExtrudeGeometry(hexShape, extrudeSettings);*/
 	switch (type) {
 		case SubtileTypeEnum.VOLCANO:
-			var hexMesh = new THREE.Mesh(hex, volcanoHexMaterial);
+			hexMesh = new THREE.Mesh(hex, volcanoHexMaterial);
 			break;
 		case SubtileTypeEnum.JUNGLE:
-			var hexMesh = new THREE.Mesh(hex, jungleHexMaterial);
+			hexMesh = new THREE.Mesh(hex, jungleHexMaterial);
 			break;
 		case SubtileTypeEnum.GRASS:
-			var hexMesh = new THREE.Mesh(hex, grassHexMaterial);
+			hexMesh = new THREE.Mesh(hex, grassHexMaterial);
 			break;
 		case SubtileTypeEnum.DESERT:
-			var hexMesh = new THREE.Mesh(hex, desertHexMaterial);
+			hexMesh = new THREE.Mesh(hex, desertHexMaterial);
 			break;
 		case SubtileTypeEnum.QUARRY:
-			var hexMesh = new THREE.Mesh(hex, quarryHexMaterial);
+			hexMesh = new THREE.Mesh(hex, quarryHexMaterial);
 			break;
 		case SubtileTypeEnum.LAGOON:
-			var hexMesh = new THREE.Mesh(hex, lagoonHexMaterial);
+			hexMesh = new THREE.Mesh(hex, lagoonHexMaterial);
 			break;
 		default:
 	}
 
-	//hexMesh.position.set(0,0,HEX_HEIGHT);
+	// Shadow config
+	hexMesh.castShadow = true;
+
 	hexMesh.position.set(centerX, centerY, HEX_HEIGHT);
 	console.log("New hexMesh pos: (" + hexMesh.position.x + "," +
 		hexMesh.position.y + "," + hexMesh.position.z + ")");
 	if (isDeck) {
-		//i++;
 		var name = deckPos + remainingTiles;
 		console.log("deckTileHex name: " + name);
 		console.log(name === 'topDeckHex48');
-		//console.log("i: " + i);
 		hexMesh.name = name;
 	}
 	scene.add(hexMesh);

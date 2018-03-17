@@ -125,6 +125,8 @@ const terrainDist = [
 ];
 
 const CAM_ANGLE = Math.PI/4;
+//const CAM_ANGLE = Math.PI/2.5;
+
 const X_AXIS = new THREE.Vector3(1,0,0);
 
 
