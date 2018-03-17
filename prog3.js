@@ -34,7 +34,7 @@ function bkgdMusicLoaded(e) {
 	}
 	canvasApp();
 }
-var i = 0;
+//var i = 0;
 function canvasApp() {	
 	// UNMUTE FOR BACKGROUND MUSIC
 	audioElement.muted = true;
@@ -57,7 +57,7 @@ function canvasApp() {
 	
 	// GAMELOOP
 	var render = function() {
-		i++;
+		//i++;
 		//console.log('inside render iter: ' + i);
 		
 		//Logic for correct display BASED ON STATES
@@ -68,18 +68,12 @@ function canvasApp() {
 			// remove choose player meshes
 			if (button1Mesh) {
 				scene.remove(button1Mesh);
-				button1Mesh.geometry.dispose();
-				button1Mesh.material.dispose();
 				button1Mesh = undefined;
 
 				scene.remove(button2Mesh);
-				button2Mesh.geometry.dispose();
-				button2Mesh.material.dispose();
 				button2Mesh = undefined;
 
 				scene.remove(button3Mesh);
-				button3Mesh.geometry.dispose();
-				button3Mesh.material.dispose();
 				button3Mesh = undefined;
 
 				scene.remove(button4Mesh);
@@ -123,7 +117,42 @@ function canvasApp() {
 				tileCountMesh = undefined;
 				// add new tile counter
 				drawTileCounter();
-			} else if (tryingTilePlacement) {
+
+				// REMOVE new tile on deck
+				scene.traverse (function (object) {
+					if (object instanceof THREE.Mesh) {
+
+						var topString = 'topDeckHex' + (remainingTiles+1).toString();
+						var leftString = 'leftDeckHex' + (remainingTiles+1).toString();
+						var rightString = 'rightDeckHex' + (remainingTiles+1).toString();
+						if (object.name === topString) {
+							console.log('deleting object.name = ' + object.name);
+							
+							scene.remove(object);
+							object = undefined;
+
+						} else if (object.name === leftString) {
+							console.log('deleting object.name = ' + object.name);
+
+							scene.remove(object);
+							object = undefined;
+
+						} else if (object.name === rightString) {
+							console.log('deleting object.name = ' + object.name);
+							
+							scene.remove(object);
+							object = undefined;
+						}
+					}
+				});
+
+
+				terrDistIndex--;
+				remainingTiles = TILE_NUM - terrDistIndex;
+
+				drawDeck();
+			}
+				/*} else if (tryingTilePlacement) {
 				tryingTilePlacement = false;
 
 				console.log("clicked board mouse3DVector: (" + 
@@ -280,7 +309,7 @@ function canvasApp() {
 					/*if (tileAngle !== 0) {
 						tileAngle = 0;
 					}*/
-				} else {
+				/*} else {
 					console.log("ILLEGAL PLACEMENT");
 					if (tileFlipped) { tileFlipped = false; }
 					// STATE CHANGE
@@ -301,13 +330,9 @@ function canvasApp() {
 
 
 
-			}
-		// UNEXECUTABLE	
+			}*/	
 		} else if (holdingTile) {
 			console.log("holding Tile in render");
-
-			// temporary
-			/*holdingTile = false;
 
 			if (justGrabbedTile) {
 				justGrabbedTile = false;
@@ -322,48 +347,236 @@ function canvasApp() {
 				// add new deck underneath
 				drawDeck();	
 				firstDraw = false;  // unused	
-			}*/
-			// If mouse position has changed
-			//if (prevMouseX !== mouse.x || prevMouseY !== mouse.y) {
-				/*console.log("about to traverse objects");
-				scene.traverse (function (object) {
-					if (object instanceof THREE.Mesh) {
-						//console.log("Mesh detected. Object.name = " + object.name);
+			}
+			else if (tryingTilePlacement) {
+				tryingTilePlacement = false;
+
+				console.log("clicked board mouse3DVector: (" + 
+				mouse3DVector.x + "," + mouse3DVector.y + "," + mouse3DVector.z + ")");
+
+				//mouse3DVector.unproject(camera);
+				//console.log("clicked board mouse3DVector unproject(camera): (" + 
+					//mouse3DVector.x + "," + mouse3DVector.y + "," + mouse3DVector.z + ")");
+
+				//var dir = mouse3DVector.sub(camera.position).normalize();
+				//var distance = - camera.position.z / dir.z;
+				//var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+				
+				//var raycaster = projector.pickingRay(mouse3DVector, camera);
+				raycaster.setFromCamera(mouse3DVector, camera); 
+				var pos = raycaster.ray.intersectPlane(zPlane);
+				
+				console.log("clicked board pos: (" + 
+					pos.x + "," + pos.y + "," + pos.z + ")");
+
+				// Draw a new tile at appropriate coordinates
+				var tileRow = getTopRow(pos.x, pos.y);
+				var tileCol = getLeftmostCol(pos.x, pos.y, tileRow);
+				console.log("top tile row clicked: " + tileRow + ", leftmost tile col clicked: " + tileCol);
+				if (tileFlipped) {
+					var bottomIndex, leftIndex, rightIndex;
+					console.log("tile angle: " + tileAngle);
+					// Change to access terrainDist Array
+					if (tileAngle < 100 * (Math.PI/180)) { // 60
+						bottomIndex = 2;
+						leftIndex = 1;
+						rightIndex = 0;
+					} else if (tileAngle < 200 * (Math.PI/180)) { // 180
+						bottomIndex = 0;
+						leftIndex = 2;
+						rightIndex = 1;
+					} else { // 300
+						bottomIndex = 1;
+						leftIndex = 0;
+						rightIndex = 2;
+					}
+					// USED TO BE FORR HOLDINGTILE
+					//var newCenterHex = new HexState(tileRow+1, tileCol, 1, terrainDist[terrDistIndex][bottomIndex-1], tileAngle, currPlayer, 0, 0, 0, false);
+					var newCenterHex = new HexState(tileRow+1, tileCol, 1, terrainDist[terrDistIndex][bottomIndex], tileAngle, currPlayer, 0, 0, 0, false);
+					console.log("to add boardState[" + (tileRow+1) + "][" + (tileCol+Math.floor((ROWS-1)/2)) + "] = " + newCenterHex);
+					
+					var newLeftHex = new HexState(tileRow, tileCol, 1, terrainDist[terrDistIndex][leftIndex], tileAngle, currPlayer, 0, 0, 0, false);
+					console.log("to add boardState[" + tileRow + "][" + (tileCol+Math.floor((ROWS-1)/2)) + "] = " + newLeftHex);
+					
+					var newRightHex = new HexState(tileRow, tileCol+1, 1, terrainDist[terrDistIndex][rightIndex], tileAngle, currPlayer, 0, 0, 0, false);
+					console.log("to add boardState[" + tileRow + "][" + (tileCol+1+Math.floor((ROWS-1)/2)) + "] = " + newRightHex);
+					
+				} else {
+					var topIndex, leftIndex, rightIndex;
+					console.log("tile angle: " + tileAngle);
+					if (tileAngle < 100 * (Math.PI/180)) { // 0
+						topIndex = 0;
+						leftIndex = 1;
+						rightIndex = 2;
+					} else if (tileAngle < 200 * (Math.PI/180)) { // 120
+						topIndex = 1;
+						leftIndex = 2;
+						rightIndex = 0;
+					} else { // 240
+						topIndex = 2;
+						leftIndex = 0;
+						rightIndex = 1;
+					}
+					var newCenterHex = new HexState(tileRow, tileCol+1, 1, terrainDist[terrDistIndex][topIndex], tileAngle, currPlayer, 0, 0, 0, false);
+					console.log("to add boardState[" + tileRow + "][" + (tileCol+1+Math.floor((ROWS-1)/2)) + "] = " + newCenterHex);
+
+					var newLeftHex = new HexState(tileRow+1, tileCol, 1, terrainDist[terrDistIndex][leftIndex], tileAngle, currPlayer, 0, 0, 0, false);
+					console.log("to add boardState[" + (tileRow+1) + "][" + (tileCol+Math.floor((ROWS-1)/2)) + "] = " + newLeftHex);
+					
+					var newRightHex = new HexState(tileRow+1, tileCol+1, 1, terrainDist[terrDistIndex][rightIndex], tileAngle, currPlayer, 0, 0, 0, false);
+					console.log("to add boardState[" + (tileRow+1) + "][" + (tileCol+1+Math.floor((ROWS-1)/2)) + "] = " + newRightHex);
+				}
+
+				if (isTileValid(tileRow, tileCol, newCenterHex, newLeftHex, newRightHex, boardState)) {
+					drawableBoardHexagons.push(newCenterHex, newLeftHex, newRightHex);
+					if (tileFlipped) {
+						// Add boardstate offsets
+						boardState[tileRow+1][tileCol+Math.floor((ROWS-1)/2)] = newCenterHex;
+						boardState[tileRow][tileCol+Math.floor((ROWS-1)/2)] = newLeftHex;
+						boardState[tileRow][tileCol+1+Math.floor((ROWS-1)/2)] = newRightHex;
+
+						// GRAPHICS
+						translateAndMoveHexMesh(tileRow+1, tileCol);
+						translateAndMoveHexMesh(tileRow, tileCol);
+						translateAndMoveHexMesh(tileRow, tileCol+1);
+
+						tileFlipped = false;
+					} else {
+						boardState[tileRow][tileCol+1+Math.floor((ROWS-1)/2)] = newCenterHex;
+						boardState[tileRow+1][tileCol+Math.floor((ROWS-1)/2)] = newLeftHex;
+						boardState[tileRow+1][tileCol+1+Math.floor((ROWS-1)/2)] = newRightHex;
+
+						console.log('moving meshes - successful placement');
+						// GRAPHICS
+						translateAndMoveHexMesh(tileRow, tileCol+1, 'topDeckHex' + (remainingTiles+1).toString());
+						translateAndMoveHexMesh(tileRow+1, tileCol, 'leftDeckHex' + (remainingTiles+1).toString());
+						translateAndMoveHexMesh(tileRow+1, tileCol+1, 'rightDeckHex' + (remainingTiles+1).toString());
+
+						//var topString = 'topDeckHex' + (remainingTiles).toString();
+						//var leftString = 'leftDeckHex' + (remainingTiles).toString();
+						//var rightString = 'rightDeckHex' + (remainingTiles).toString();
+
+					}
+					// STATE CHANGE
+					holdingTile = false;
+
+					buildingTime = true;
+					heldOverPlaced = false;
+
+					//justPlacedTile = true;
+
+					//drawDeck();
+			
+					// Player elimination if no building options left
+					if (remainingTiles < (TILE_NUM-1) && noBuildingOptionsLeft()) {
+						// Eliminate player
+						switch(currPlayer) {
+						case PlayerEnum.ONE:
+							playerIndex = 0;
+							break;
+						case PlayerEnum.TWO:
+							playerIndex = 1;
+							break;
+						case PlayerEnum.THREE:
+							playerIndex = 2;
+							break;
+						case PlayerEnum.FOUR:
+							playerIndex = 3;
+							break;
+						}
+						players[playerIndex] = 0;
 						
-						var topString = 'topDeckHex' + (remainingTiles+1).toString();
-						var leftString = 'leftDeckHex' + (remainingTiles+1).toString();
-						var rightString = 'rightDeckHex' + (remainingTiles+1).toString();
-						if (object.name === topString) {
-							console.log('object.name = ' + object.name);
-							object.position.z = 3*BOARD_HEIGHT;
-							object.position.x = mouse.x;
-							object.position.y = mouse.y + SIZE;
-							//object.position.set(mouse.x, mouse.y + SIZE, 3*BOARD_HEIGHT);  
-							console.log("topHex position: " + object.position.x + " " + object.position.y + " " + object.position.z);
-						} else if (object.name === leftString) {
-							console.log('object.name = ' + object.name);
-							object.position.z = 3*BOARD_HEIGHT;
-							object.position.x = mouse.x - (WIDTH / 2);
-							object.position.y = mouse.y - (SIZE / 2);
-
-							//object.position.set(mouse.x - (WIDTH / 2), mouse.y - (SIZE / 2), 3*BOARD_HEIGHT);  
-							console.log("leftHex position: " + object.position.x + " " + object.position.y + " " + object.position.z);
-
-						} else if (object.name === rightString) {
-							console.log('object.name = ' + object.name);
-							object.position.z = 3*BOARD_HEIGHT;
-							object.position.x = mouse.x + (WIDTH / 2);
-							object.position.y = mouse.y - (SIZE / 2);
-							//object.position.set(mouse.x + (WIDTH / 2), mouse.y - (SIZE / 2), 3*BOARD_HEIGHT);
-
-							console.log("rightHex position: " + object.position.x + " " + object.position.y + " " + object.position.z);
-							console.log('');
-							console.log("mouse.x: " + mouse.x + ", mouse.y: " + mouse.y);
-							console.log('');
-
+						// For elimination
+						var playerCount= 0;
+						for (var i = 0; i < players.length; i++) {
+							if (players[i] === 1) {
+								playerCount++;
+								lastPlayerAlive = i + 1;
+							}
+						}
+						if (playerCount === 1) {
+							onePlayerLeft = true;
+							gameOver = true;
 						}
 					}
-				});*/
+					//drawScreen();
+					/*if (tileAngle !== 0) {
+						tileAngle = 0;
+					}*/
+				} else {
+					console.log("ILLEGAL PLACEMENT");
+					if (tileFlipped) { tileFlipped = false; }
+					// STATE CHANGE
+					holdingTile = false;
+					
+					// STATE CHANGE
+					idling = true;
+
+					badTilePlacement = true;
+
+					// Put tile back in deck
+					//terrDistIndex--;
+					//remainingTiles = TILE_NUM - terrDistIndex;
+					//drawScreen();
+				}
+				//render();
+				if (tileAngle !== 0) {
+					tileAngle = 0;
+				}
+				//return;
+			}
+
+			//ANIMATE HOLDING TILE
+			raycaster.setFromCamera(mouse3DVector, camera); 
+			var pos = raycaster.ray.intersectPlane(zPlane);
+			console.log("hovering board pos: (" + 
+				pos.x + "," + pos.y + "," + pos.z + ")");
+
+			//translateAndMoveHexMesh(pos.x, pos.y + SIZE, 'topDeckHex' + (remainingTiles+1).toString());
+			//translateAndMoveHexMesh(pos.x - (WIDTH / 2), pos.y - (SIZE / 2), 'leftDeckHex' + (remainingTiles+1).toString());
+			//translateAndMoveHexMesh(pos.x + (WIDTH / 2), pos.y - (SIZE / 2), 'rightDeckHex' + (remainingTiles+1).toString());			
+			
+			// If mouse position has changed
+			//if (prevMouseX !== mouse.x || prevMouseY !== mouse.y) {
+			console.log("about to traverse objects");
+			scene.traverse (function (object) {
+				if (object instanceof THREE.Mesh) {
+					//console.log("Mesh detected. Object.name = " + object.name);
+					
+					var topString = 'topDeckHex' + (remainingTiles+1).toString();
+					var leftString = 'leftDeckHex' + (remainingTiles+1).toString();
+					var rightString = 'rightDeckHex' + (remainingTiles+1).toString();
+					if (object.name === topString) {
+						console.log('object.name = ' + object.name);
+						object.position.z = 3*BOARD_HEIGHT;
+						object.position.x = pos.x;
+						object.position.y = pos.y + SIZE;
+						//object.position.set(mouse.x, mouse.y + SIZE, 3*BOARD_HEIGHT);  
+						console.log("topHex position: " + object.position.x + " " + object.position.y + " " + object.position.z);
+					} else if (object.name === leftString) {
+						console.log('object.name = ' + object.name);
+						object.position.z = 3*BOARD_HEIGHT;
+						object.position.x = pos.x - (WIDTH / 2);
+						object.position.y = pos.y - (SIZE / 2);
+
+						//object.position.set(mouse.x - (WIDTH / 2), mouse.y - (SIZE / 2), 3*BOARD_HEIGHT);  
+						console.log("leftHex position: " + object.position.x + " " + object.position.y + " " + object.position.z);
+
+					} else if (object.name === rightString) {
+						console.log('object.name = ' + object.name);
+						object.position.z = 3*BOARD_HEIGHT;
+						object.position.x = pos.x + (WIDTH / 2);
+						object.position.y = pos.y - (SIZE / 2);
+						//object.position.set(mouse.x + (WIDTH / 2), mouse.y - (SIZE / 2), 3*BOARD_HEIGHT);
+
+						/*console.log("rightHex position: " + object.position.x + " " + object.position.y + " " + object.position.z);
+						console.log('');
+						console.log("mouse.x: " + mouse.x + ", mouse.y: " + mouse.y);
+						console.log('');*/
+
+					}
+				}
+			});
 			//}
 			// Update held tile mesh
 			/*console.log("Name string: " + nameString);
@@ -382,22 +595,7 @@ function canvasApp() {
 
 			//drawDeck();
 		} else if (buildingTime) {
-			// PLaced valid tile
-			if (justPlacedTile) {
-				justPlacedTile = false;
-
-				// remove prev tile counter
-				scene.remove(tileCountMesh);
-				tileCountMesh.geometry.dispose();
-				tileCountMesh.material.dispose();
-				tileCountMesh = undefined;
-				// add new tile counter
-				drawTileCounter();
-				// add new deck underneath
-				drawDeck();	
-				firstDraw = false;  // unused	
-			}
-			
+			console.log("In building logic");
 			
 			// todo
 			drawHutsTemplesAndTowers();
@@ -602,7 +800,7 @@ function onDocumentMouseClick(e) {
 		}
 		// STATE CHANGE
 		idling = true;
-	/*}
+	}
 	// If mouse is over draw deck
 	else if (idling && 
 		(intersects[0].object.name.startsWith("topDeckHex") ||
@@ -621,11 +819,11 @@ function onDocumentMouseClick(e) {
 
 		// STATE CHANGE
 		holdingTile = true;
-		console.log("Holding tile: " + holdingTile);*/
+		console.log("Holding tile: " + holdingTile);
 
 	// Else if mouse is over board && holdingTile	
-	//}  else if (holdingTile && intersects[0].object.name === "board") {
-	}  else if (idling && intersects[0].object.name === "board") {
+	}  else if (holdingTile && intersects[0].object.name === "board") {
+	//}  else if (idling && intersects[0].object.name === "board") {
 		// STATE CHANGE
 		//holdingTile = false;
 		//idling = false;

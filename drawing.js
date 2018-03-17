@@ -205,16 +205,12 @@ function drawPlayerNumPrompt() {
 	context.fillRect(5*PANEL_WIDTH/9, DECK_Y/2.5, WIDTH/3, SIZE);
 	context.fillRect(7*PANEL_WIDTH/9, DECK_Y/2.5, WIDTH/3, SIZE);*/
 
-	var button1 = new THREE.BoxGeometry(WIDTH/3, SIZE, BOARD_HEIGHT);
-	var button2 = new THREE.BoxGeometry(WIDTH/3, SIZE, BOARD_HEIGHT);
-	var button3 = new THREE.BoxGeometry(WIDTH/3, SIZE, BOARD_HEIGHT);
-	var button4 = new THREE.BoxGeometry(WIDTH/3, SIZE, BOARD_HEIGHT);
-
+	var button = new THREE.BoxGeometry(WIDTH/3, SIZE, BOARD_HEIGHT);
 	var buttonMaterial = new THREE.MeshLambertMaterial( {color: 'rgb(200, 175, 150)'} );
-	button1Mesh = new THREE.Mesh(button1, buttonMaterial);
-	button2Mesh = new THREE.Mesh(button2, buttonMaterial);
-	button3Mesh = new THREE.Mesh(button3, buttonMaterial);
-	button4Mesh = new THREE.Mesh(button4, buttonMaterial);
+	button1Mesh = new THREE.Mesh(button, buttonMaterial);
+	button2Mesh = new THREE.Mesh(button, buttonMaterial);
+	button3Mesh = new THREE.Mesh(button, buttonMaterial);
+	button4Mesh = new THREE.Mesh(button, buttonMaterial);
 	button1Mesh.position.set(PANEL_WIDTH/9 - (BOARD_WIDTH/2), -(DECK_Y/2.5) + (BOARD_LENGTH/2), BOARD_HEIGHT);
 	button2Mesh.position.set(PANEL_WIDTH/3 - (BOARD_WIDTH/2), -(DECK_Y/2.5) + (BOARD_LENGTH/2), BOARD_HEIGHT);
 	button3Mesh.position.set(5*PANEL_WIDTH/9 - (BOARD_WIDTH/2), -(DECK_Y/2.5) + (BOARD_LENGTH/2), BOARD_HEIGHT);
