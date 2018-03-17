@@ -263,7 +263,7 @@ function drawPlayerTurn(player) {
 	context.textBaseline = 'top';
 	context.fillText ("Player " + player + "\'s Turn", 35, DECK_Y/6);*/
 
-	playerTurnMesh.position.set((PANEL_WIDTH/9) - (BOARD_WIDTH/2), -(DECK_Y/6) + (BOARD_LENGTH/2), BOARD_HEIGHT*3);
+	playerTurnMesh.position.set((PANEL_WIDTH/9) - (BOARD_WIDTH/2) + (BOARD_WIDTH/1.8), -(DECK_Y/6) + (BOARD_LENGTH/2) - (BOARD_LENGTH + (3*SIZE/2)), BOARD_HEIGHT*3);
 	playerTurnMesh.name = 'playerTurn';
 	scene.add(playerTurnMesh);
 }
@@ -333,9 +333,9 @@ function drawPlayersWin(tied) {
 // Fully updated for 3D
 function drawTileCounter() {
 
-	var tileCount = new THREE.TextGeometry("remaining: " + remainingTiles, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
+	var tileCount = new THREE.TextGeometry("tiles remaining: " + remainingTiles, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 	tileCountMesh = new THREE.Mesh(tileCount, blackTextMaterial);
-	tileCountMesh.position.set((PANEL_WIDTH/9) - (BOARD_WIDTH/2), -(DECK_Y/2.5) + (BOARD_LENGTH/2), BOARD_HEIGHT*3);
+	tileCountMesh.position.set((PANEL_WIDTH/9) - (BOARD_WIDTH/2), -(DECK_Y/2.5) + (BOARD_LENGTH/2) - BOARD_LENGTH, BOARD_HEIGHT*3);
 	tileCountMesh.name = 'tileCounter';
 	scene.add(tileCountMesh);
 }
@@ -351,7 +351,7 @@ function drawHutsTemplesAndTowers() {
 	//context.textBaseline = 'top';
 	switch(currPlayer) {
 	case PlayerEnum.ONE:
-		context.fillStyle = 'red';
+		//context.fillStyle = 'red';
 		/*context.fillText (RemainingHutsEnum.ONE, HUT_X + 16, HTT_Y - 30);
 		context.fillText (RemainingTemplesEnum.ONE, TEMPLE_X + 24, HTT_Y - 30);
 		context.fillText (RemainingTowersEnum.ONE, TOWER_X + 24, HTT_Y - 30);*/
@@ -370,7 +370,7 @@ function drawHutsTemplesAndTowers() {
 
 		break;
 	case PlayerEnum.TWO:
-		context.fillStyle = 'yellow';
+		//context.fillStyle = 'yellow';
 		/*context.fillText (RemainingHutsEnum.TWO, HUT_X + 16, HTT_Y - 30);
 		context.fillText (RemainingTemplesEnum.TWO, TEMPLE_X + 24, HTT_Y - 30);
 		context.fillText (RemainingTowersEnum.TWO, TOWER_X + 24, HTT_Y - 30);*/
@@ -389,7 +389,7 @@ function drawHutsTemplesAndTowers() {
 
 		break;
 	case PlayerEnum.THREE:
-		context.fillStyle = 'green';
+		//context.fillStyle = 'green';
 		/*context.fillText (RemainingHutsEnum.THREE, HUT_X + 16, HTT_Y - 30);
 		context.fillText (RemainingTemplesEnum.THREE, TEMPLE_X + 24, HTT_Y - 30);
 		context.fillText (RemainingTowersEnum.THREE, TOWER_X + 24, HTT_Y - 30);*/
@@ -408,7 +408,7 @@ function drawHutsTemplesAndTowers() {
 
 		break;
 	case PlayerEnum.FOUR:
-		context.fillStyle = 'blue';
+		//context.fillStyle = 'blue';
 		/*context.fillText (RemainingHutsEnum.FOUR, HUT_X + 16, HTT_Y - 30);
 		context.fillText (RemainingTemplesEnum.FOUR, TEMPLE_X + 24, HTT_Y - 30);
 		context.fillText (RemainingTowersEnum.FOUR, TOWER_X + 24, HTT_Y - 30);*/
