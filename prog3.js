@@ -37,7 +37,7 @@ function bkgdMusicLoaded(e) {
 //var i = 0;
 function canvasApp() {	
 	// UNMUTE FOR BACKGROUND MUSIC
-	audioElement.muted = true;
+	//audioElement.muted = true;
 
 	audioElement.play();
 	audioElement.loop = true;
