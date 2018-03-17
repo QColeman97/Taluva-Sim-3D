@@ -461,9 +461,10 @@ function canvasApp() {
 					holdingTile = false;
 
 					buildingTime = true;
+					// substate
+					startedBuilding = true;
+					
 					heldOverPlaced = false;
-
-					//justPlacedTile = true;
 
 					//drawDeck();
 			
@@ -598,27 +599,30 @@ function canvasApp() {
 			console.log("In building logic");
 			
 			// todo
-			drawHutsTemplesAndTowers();
-			if (hutsLeft() && buildingTime) {
-				drawExpandButton();
+			if (startedBuilding) {
+				startedBuilding = false;
+				drawHutsTemplesAndTowers();
+				if (hutsLeft() && buildingTime) {
+					addExpandButtonMesh();
+				}
 			}
 		} else if (holdingHut) {
 			// todo
 			drawHutsTemplesAndTowers();
 			if (hutsLeft() && buildingTime) {
-				drawExpandButton();
+				addExpandButtonMesh();
 			}
 		} else if (holdingTower) {
 			// todo
 			drawHutsTemplesAndTowers();
 			if (hutsLeft() && buildingTime) {
-				drawExpandButton();
+				addExpandButtonMesh();
 			}
 		} else if (holdingTemple) {
 			// todo
 			drawHutsTemplesAndTowers();
 			if (hutsLeft() && buildingTime) {
-				drawExpandButton();
+				addExpandButtonMesh();
 			}
 		} else if (gameOver) {
 			addGameOverMesh();
@@ -908,6 +912,7 @@ function onDocumentMouseClick(e) {
 
 			// STATE CHANGE
 			buildingTime = false;
+			
 			placedAtLeastOneBuilding = false;
 
 			if (terrDistIndex === TILE_NUM) {

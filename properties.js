@@ -62,9 +62,9 @@ const DECK_Y = -(5 * SIZE) + (BOARD_LENGTH/2);
 const HUT_X = 0.25 * WIDTH - (BOARD_WIDTH/2);
 const TEMPLE_X = 1.12 * WIDTH - (BOARD_WIDTH/2);
 const TOWER_X = 2 * WIDTH - (BOARD_WIDTH/2);
-const HTT_Y = -(9 * SIZE) + (BOARD_LENGTH/2);
-const EXPAND_BTN_X = 0.5 * WIDTH - (BOARD_WIDTH/2);
-const EXPAND_BTN_Y = -(12 * SIZE) + (BOARD_LENGTH/2);
+const HTT_Y = -(9 * SIZE) + (BOARD_LENGTH/2) - 30;
+const EXPAND_BTN_X = WIDTH - (BOARD_WIDTH/2) + WIDTH/2;
+const EXPAND_BTN_Y = -(12 * SIZE) + (BOARD_LENGTH/2) - 50;
 const DONE_BTN_X = 0.5 * WIDTH - (BOARD_WIDTH/2);
 const DONE_BTN_Y = -(16 * SIZE) + (BOARD_LENGTH/2);
 // TALUVA Title constants
@@ -181,7 +181,7 @@ var heldOverPlaced = false;
 //STATE
 var buildingTime = false;
 //substate
-var justPlacedTile = false;
+var startedBuilding = false;
 
 //STATE
 var holdingHut = false;

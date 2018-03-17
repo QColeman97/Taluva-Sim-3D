@@ -47,6 +47,8 @@ camera.position.set(0, 50, 250);
 
 var scene = new THREE.Scene();
 
+var objLoader = new THREE.OBJLoader();
+
 // Rotate camera 45 deg downwards
 var camera_pivot = new THREE.Object3D()
 scene.add(camera_pivot);
@@ -358,14 +360,17 @@ function drawHutsTemplesAndTowers() {
 
 		var huts = new THREE.TextGeometry(RemainingHutsEnum.ONE, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		hutsMesh = new THREE.Mesh(huts, redTextMaterial);
+		hutsMesh.position.set(HUT_X - 5, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(hutsMesh);
 		
 		var temples = new THREE.TextGeometry(RemainingTemplesEnum.ONE, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		templesMesh = new THREE.Mesh(temples, redTextMaterial);
+		templesMesh.position.set(TEMPLE_X, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(templesMesh);
 		
 		var towers = new THREE.TextGeometry(RemainingTowersEnum.ONE, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		towersMesh = new THREE.Mesh(towers, redTextMaterial);
+		towersMesh.position.set(TOWER_X + 2, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(towersMesh);
 
 		break;
@@ -377,14 +382,17 @@ function drawHutsTemplesAndTowers() {
 		
 		var huts = new THREE.TextGeometry(RemainingHutsEnum.TWO, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		hutsMesh = new THREE.Mesh(huts, yellowTextMaterial);
+		hutsMesh.position.set(HUT_X - 5, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(hutsMesh);
 		
 		var temples = new THREE.TextGeometry(RemainingTemplesEnum.TWO, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		templesMesh = new THREE.Mesh(temples, yellowTextMaterial);
+		templesMesh.position.set(TEMPLE_X, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(templesMesh);
 		
 		var towers = new THREE.TextGeometry(RemainingTowersEnum.TWO, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		towersMesh = new THREE.Mesh(towers, yellowTextMaterial);
+		towersMesh.position.set(TOWER_X + 2, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(towersMesh);
 
 		break;
@@ -396,14 +404,17 @@ function drawHutsTemplesAndTowers() {
 
 		var huts = new THREE.TextGeometry(RemainingHutsEnum.THREE, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		hutsMesh = new THREE.Mesh(huts, greenTextMaterial);
+		hutsMesh.position.set(HUT_X - 5, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(hutsMesh);
 		
 		var temples = new THREE.TextGeometry(RemainingTemplesEnum.THREE, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		templesMesh = new THREE.Mesh(temples, greenTextMaterial);
+		templesMesh.position.set(TEMPLE_X, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(templesMesh);
 		
 		var towers = new THREE.TextGeometry(RemainingTowersEnum.THREE, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		towersMesh = new THREE.Mesh(towers, greenTextMaterial);
+		towersMesh.position.set(TOWER_X + 2, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(towersMesh);
 
 		break;
@@ -413,62 +424,77 @@ function drawHutsTemplesAndTowers() {
 		context.fillText (RemainingTemplesEnum.FOUR, TEMPLE_X + 24, HTT_Y - 30);
 		context.fillText (RemainingTowersEnum.FOUR, TOWER_X + 24, HTT_Y - 30);*/
 
-		var huts = new THREE.TextGeometry(RemainingHutsEnum.FOUR, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
+		var huts = new THREE.TextGeometry(RemainingHutsEnum.FOUR, {font: font, size: 40 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		hutsMesh = new THREE.Mesh(huts, blueTextMaterial);
+		hutsMesh.position.set(HUT_X - 5, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(hutsMesh);
 		
-		var temples = new THREE.TextGeometry(RemainingTemplesEnum.FOUR, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
+		var temples = new THREE.TextGeometry(RemainingTemplesEnum.FOUR, {font: font, size: 40 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		templesMesh = new THREE.Mesh(temples, blueTextMaterial);
+		templesMesh.position.set(TEMPLE_X, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(templesMesh);
 		
-		var towers = new THREE.TextGeometry(RemainingTowersEnum.FOUR, {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
+		var towers = new THREE.TextGeometry(RemainingTowersEnum.FOUR, {font: font, size: 40 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 		towersMesh = new THREE.Mesh(towers, blueTextMaterial);
+		towersMesh.position.set(TOWER_X + 2, HTT_Y + 15, BOARD_HEIGHT);
 		scene.add(towersMesh);
 
 		break;
 	default:
 	}
 
-	var objLoader = new THREE.OBJLoader();
-	var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+	var hutMaterial = new THREE.MeshBasicMaterial( { color: 'brown' } );
+	var templeMaterial = new THREE.MeshBasicMaterial( { color: 'gold' } );
+	var towerMaterial = new THREE.MeshBasicMaterial( { color: 'white' } );
+
 	// SPACESHIP
 	objLoader.load('shack.obj', function (hut) {
 	  hut.traverse(function (child) {
 		if (child instanceof THREE.Mesh) {
-		  child.material = material;
+		  child.material = hutMaterial;
 		}
 	  });
 
-	  hut.scale.x = 0.1;
-	  hut.scale.y = 0.1;
-	  hut.scale.z = 0.1;	
+	  hut.scale.x = 2; //2
+	  hut.scale.y = 2;
+	  hut.scale.z = 2;
+	  hut.position.set(HUT_X, HTT_Y, BOARD_HEIGHT);
 	  scene.add(hut);
+	  hut.rotation.x += Math.PI/2;
+	  console.log("Added hut");
 
 	});
 	
 	objLoader.load('templo.obj', function (temple) {
 	  temple.traverse(function (child) {
 		if (child instanceof THREE.Mesh) {
-		  child.material = material;
+		  child.material = templeMaterial;
 		}
 	  });
-	  temple.scale.x = 0.1;
-	  temple.scale.y = 0.1;
-	  temple.scale.z = 0.1;
+	  temple.scale.x = 0.7;
+	  temple.scale.y = 0.5;
+	  temple.scale.z = 0.7;
+	  temple.position.set(TEMPLE_X + 2, HTT_Y + 2, BOARD_HEIGHT/4);
+	  temple.rotation.x += Math.PI/2;
 	  scene.add(temple);
+	  console.log("Added temple");
+
 
 	});
 
 	objLoader.load('tower.obj', function (tower) {
 	  tower.traverse(function (child) {
 		if (child instanceof THREE.Mesh) {
-		  child.material = material;
+		  child.material = towerMaterial;
 		}
 	  });
-	  tower.scale.x = 0.1;
-	  tower.scale.y = 0.1;
-	  tower.scale.z = 0.1;
+	  tower.scale.x = 2.5; //2
+	  tower.scale.y = 2.5;
+	  tower.scale.z = 2.5;
+	  tower.position.set(TOWER_X + 3, HTT_Y - 5, BOARD_HEIGHT);
 	  scene.add(tower);
+	  console.log("Added tower");
+
 	});
 
 
@@ -477,8 +503,9 @@ function drawHutsTemplesAndTowers() {
 	if (buildingTime && hutsLeft())
 		context.fillText("or", HUT_X+95, HTT_Y+115);*/
 
-	var build = new THREE.TextGeometry("build something", {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
+	var build = new THREE.TextGeometry("build something", {font: font, size: 40 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 	buildMesh = new THREE.Mesh(build, blackTextMaterial);
+	buildMesh.position.set(HUT_X - 15, HTT_Y-10, BOARD_HEIGHT);
 	scene.add(buildMesh);
 }
 
@@ -527,7 +554,7 @@ function addExpandButtonMesh() {
 	context.shadowOffsetY=0;
 	context.font = '20px sans-serif';*/
 	
-	var title = new THREE.TextGeometry("EXPAND\nSETTLEMENT", {font: font, size: 60 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 12 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 5 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
+	var title = new THREE.TextGeometry("EXPAND\nSETTLEMENT", {font: font, size: 20 / DOWN_GRADE, height: 5 / DOWN_GRADE, curveSegments: 6 / DOWN_GRADE, bevelEnabled: true, bevelThickness: 2 / DOWN_GRADE, bevelSize: 2 / DOWN_GRADE, bevelSegments: 5 / DOWN_GRADE});
 
 	switch(currPlayer) {
 	case PlayerEnum.ONE:
@@ -553,6 +580,7 @@ function addExpandButtonMesh() {
 	context.fillText("SETTLEMENT", EXPAND_BTN_X+20, EXPAND_BTN_Y+27);*/
 
 	expandPromptMesh.name = 'expander';
+	expandPromptMesh.position.set(EXPAND_BTN_X - WIDTH, EXPAND_BTN_Y, BOARD_HEIGHT* 2);
 	scene.add(expandPromptMesh);
 }
 
@@ -585,7 +613,7 @@ function translateAndMoveHexMesh(row,col,hexName) {
 			
 			if (object.name === hexName) {
 				console.log('object.name = ' + object.name);
-				object.position.z = 2*BOARD_HEIGHT;
+				object.position.z = BOARD_HEIGHT;
 				//object.position.x = hexX;
 				//object.position.y = hexY + SIZE;
 				// Enter method w/ exact row/col of hex
