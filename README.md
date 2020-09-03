@@ -4,6 +4,6 @@ Written in JavaScript, used THREE.js to utilize WebGL in HTML5 Canvas. This is b
 
 YouTube link below:
 
-https://www.youtube.com/watch?v=HIExGxPpcdQ
+https://www.youtube.com/watch?v=-r95rTXw1m8
 
 A 3D web-based simulator of a board game called Taluva. This allows up to 4 players, in a pass-and-play fashion.
